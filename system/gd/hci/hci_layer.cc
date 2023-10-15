@@ -212,11 +212,11 @@ struct HciLayer::impl {
           std::move(command_complete_view));
     } else {
       if (command_queue_.front().waiting_for_status_ == is_status) {
-        command_queue_.front().GetCallback<TResponse>()->Invoke(move(response_view));
+        command_queue_.front().GetCallback<TResponse>()->Invoke(std::move(response_view));
       } else {
         CommandCompleteView command_complete_view = CommandCompleteView::Create(
             EventView::Create(PacketView<kLittleEndian>(std::make_shared<std::vector<uint8_t>>(std::vector<uint8_t>()))));
-        command_queue_.front().GetCallback<CommandCompleteView>()->Invoke(move(command_complete_view));
+        command_queue_.front().GetCallback<CommandCompleteView>()->Invoke(std::move(command_complete_view));
       }
     }
 
